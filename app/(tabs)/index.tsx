@@ -5,8 +5,12 @@ import ImageViewer from "@/components/ImageViewer";
 const PlaceholderImage = require("@/assets/images/background-image.png");
 
 import * as ImagePicker from 'expo-image-picker';
+import { useState } from "react";
 
 export default function Index() {
+
+    // state hooks
+    const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
 
 
     // ImagePicker Init
@@ -18,7 +22,7 @@ export default function Index() {
         });
 
         if (!result.canceled) {
-            console.log('Result', result);
+            setSelectedImage(result.assets[0].uri);
         } else {
             alert('You did not select any image');
         }
@@ -30,7 +34,7 @@ export default function Index() {
             style={styles.container}
         >
             <View style={styles.imageContainer}>
-                <ImageViewer imageSource={PlaceholderImage} />
+                <ImageViewer imageSource={PlaceholderImage} selectedImage={selectedImage} />
             </View>
             <View style={styles.footerContainer}>
                 <Button theme="primary" label="Choose a photo" onPress={pickerImageAsync} />
